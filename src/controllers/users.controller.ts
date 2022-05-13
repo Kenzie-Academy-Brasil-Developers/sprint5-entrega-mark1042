@@ -6,9 +6,8 @@ import updateUserService from "../services/user/updateUser.service";
 import deleteUserService from "../services/user/deleteUser.service";
 export default class UsersController {
   static async store(req: Request, res: Response) {
+    const { name, email, password, age } = req.body;
     try {
-      const { name, email, password, age } = req.body;
-
       const newUser = await createUserService({ name, email, password, age });
       return res.status(201).json({ message: "user created", user: newUser });
     } catch (err) {
@@ -30,8 +29,8 @@ export default class UsersController {
   }
 
   static async show(req: Request, res: Response) {
+    const { id } = req.params;
     try {
-      const { id } = req.params;
       const user = await getUserById(id);
       return res.status(200).json({ user });
     } catch (err) {
@@ -42,9 +41,9 @@ export default class UsersController {
   }
 
   static async update(req: Request, res: Response) {
+    const { id } = req.params;
+    const { name, email, password, age } = req.body;
     try {
-      const { id } = req.params;
-      const { name, email, password, age } = req.body;
       const updatedUser = await updateUserService({
         id,
         name,
@@ -61,8 +60,8 @@ export default class UsersController {
   }
 
   static async delete(req: Request, res: Response) {
+    const { id } = req.params;
     try {
-      const { id } = req.params;
       const deletedUser = await deleteUserService(id);
       return res.status(200).json({ message: "user deleted", deletedUser });
     } catch (err) {
