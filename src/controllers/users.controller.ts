@@ -3,6 +3,7 @@ import createUserService from "../services/user/createUser.service";
 import listUsersService from "../services/user/listUsers.service";
 import getUserById from "../services/user/getUserById.service";
 import updateUserService from "../services/user/updateUser.service";
+import deleteUserService from "../services/user/deleteUser.service";
 export default class UsersController {
   static async store(req: Request, res: Response) {
     try {
@@ -59,5 +60,15 @@ export default class UsersController {
     }
   }
 
-  static async delete(req: Request, res: Response) {}
+  static async delete(req: Request, res: Response) {
+    try {
+      const { id } = req.params;
+      const deletedUser = await deleteUserService(id);
+      return res.status(200).json({ message: "user deleted", deletedUser });
+    } catch (err) {
+      if (err instanceof Error) {
+        return res.status(400).json({ error: err.name, message: err.message });
+      }
+    }
+  }
 }

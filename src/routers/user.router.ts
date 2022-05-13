@@ -8,5 +8,6 @@ userRouter.post("", UsersController.store);
 userRouter.get("", UsersController.index);
 userRouter.get("/:id", UsersController.show);
 userRouter.patch("/:id", UsersController.update);
+userRouter.delete("/:id", UsersController.delete);
 
 export default userRouter;
