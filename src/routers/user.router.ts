@@ -6,5 +6,6 @@ import UsersController from "../controllers/users.controller";
 
 userRouter.post("", UsersController.store);
 userRouter.get("", UsersController.index);
+userRouter.get("/:id", UsersController.show);
 
 export default userRouter;

@@ -1,6 +1,7 @@
 import { Request, Response } from "express";
 import createUserService from "../services/user/createUser.service";
 import listUsersService from "../services/user/listUsers.service";
+import getUserById from "../services/user/getUserById.service";
 export default class UsersController {
   static async store(req: Request, res: Response) {
     try {
@@ -26,7 +27,17 @@ export default class UsersController {
     }
   }
 
-  static async show(req: Request, res: Response) {}
+  static async show(req: Request, res: Response) {
+    try {
+      const { id } = req.params;
+      const user = await getUserById(id);
+      return res.status(200).json({ user });
+    } catch (err) {
+      if (err instanceof Error) {
+        return res.status(400).json({ error: err.name, message: err.message });
+      }
+    }
+  }
 
   static async update(req: Request, res: Response) {}
 
