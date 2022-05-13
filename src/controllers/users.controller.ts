@@ -2,6 +2,7 @@ import { Request, Response } from "express";
 import createUserService from "../services/user/createUser.service";
 import listUsersService from "../services/user/listUsers.service";
 import getUserById from "../services/user/getUserById.service";
+import updateUserService from "../services/user/updateUser.service";
 export default class UsersController {
   static async store(req: Request, res: Response) {
     try {
@@ -39,7 +40,24 @@ export default class UsersController {
     }
   }
 
-  static async update(req: Request, res: Response) {}
+  static async update(req: Request, res: Response) {
+    try {
+      const { id } = req.params;
+      const { name, email, password, age } = req.body;
+      const updatedUser = await updateUserService({
+        id,
+        name,
+        email,
+        password,
+        age,
+      });
+      return res.status(200).json({ message: "user updated", updatedUser });
+    } catch (err) {
+      if (err instanceof Error) {
+        return res.status(400).json({ error: err.name, message: err.message });
+      }
+    }
+  }
 
   static async delete(req: Request, res: Response) {}
 }
